@@ -5,7 +5,7 @@ const {ccclass, property} = cc._decorator;
 export default class HSL extends cc.Component {
 
     @property(cc.Sprite)
-    spCocos: cc.Sprite = null;
+    spDest: cc.Sprite = null;
     @property(cc.Label)
     numLabelH: cc.Label = null;
     @property(cc.Label)
@@ -24,7 +24,7 @@ export default class HSL extends cc.Component {
     }
 
     start () {
-        this.material = this.spCocos.getMaterial(0);
+        this.material = this.spDest.getMaterial(0);
         // this.setHue(this.numH);
         // this.setSaturation(this.numS);
         // this.setLightness(this.numL);

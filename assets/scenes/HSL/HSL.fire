@@ -210,7 +210,7 @@
       "array": [
         0,
         0,
-        353.94459309829926,
+        350.74028853269766,
         0,
         0,
         0,
@@ -271,7 +271,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "oldCocos",
+    "_name": "spSrc",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -365,7 +365,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "cocos",
+    "_name": "spDest",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -2377,7 +2377,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "spCocos": {
+    "spDest": {
       "__id__": 8
     },
     "numLabelH": {

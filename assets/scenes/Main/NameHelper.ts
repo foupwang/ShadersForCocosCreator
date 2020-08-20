@@ -4,7 +4,8 @@ interface nameDesc {
 };
 
 let nameArray: nameDesc[] = [
-    { name:'HSL', desc:'RGB转HSL' }, // 0
+    { name:'HSL', desc:'HSL转RGB' }, // 0
+    { name:'WaterWave', desc:'水波纹' }, // 1
 ];
 
 export default class NameHelper {
