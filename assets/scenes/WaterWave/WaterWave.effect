@@ -15,6 +15,7 @@ CCEffect %{
         alphaThreshold: { value: 0.5 }
         u_size: { value: [0.0, 0.0] }
         u_time: { value: 0.0 }
+        u_rate: { value: 0.2 }
 }%
 
 
@@ -69,12 +70,13 @@ CCProgram fs %{
   uniform ARGS {
     vec2 u_size;
     float u_time;
+    float u_rate;
   };
 
   #define F(x,y) vec2(cos(x-y)*cos(y), sin(x+y)*sin(y))
 
   vec2 wave(in vec2 p) {
-      float d = u_time*0.2, x=8.*(p.x+d), y=8.*(p.y+d);
+      float d = u_time*u_rate, x=8.*(p.x+d), y=8.*(p.y+d);
       return F(x, y);
   }
 
