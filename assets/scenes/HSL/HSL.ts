@@ -16,7 +16,7 @@ export default class HSL extends cc.Component {
     numH: number = 0; // 色相(0, 360)
     numS: number = 0; // 饱和度(-1, 1)
     numL: number = 0.5;// 亮度(-1, 1)
-    material:cc.Material = null;
+    material: cc.Material = null;
 
     // LIFE-CYCLE CALLBACKS:
 

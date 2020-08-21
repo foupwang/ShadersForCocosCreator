@@ -65,7 +65,7 @@ CCProgram fs %{
   in vec2 v_uv0;
   uniform sampler2D texture;
   #endif
-
+ 
   uniform ARGS {
     vec2 u_size;
     float u_time;
