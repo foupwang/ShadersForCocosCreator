@@ -12,9 +12,7 @@ export class WaterWave extends Component {
 
     material: Material = null;
     startTime: number = 0;
-    _time: number = 0;
-    _uv0: Vec2 = new Vec2(0.5, 0.5);
-
+    
     start () {
         this.material = this.spDest.getMaterial(0);
         let uiTrans = this.spDest.node.getComponent(UITransform);
@@ -25,12 +23,12 @@ export class WaterWave extends Component {
     }
 
     update (dt: number) {
-        this._time = (Date.now() - this.startTime) / 1000;
-        this.material.setProperty('u_time', this._time);
+        const time = (Date.now() - this.startTime) / 1000;
+        this.material.setProperty('u_time', time);
     }
 
     onSliderEvent(slider: Slider) {
-        this._setRate(Number(slider.progress));
+        this._setRate(slider.progress);
     }
 
     private _setRate(value: number) {

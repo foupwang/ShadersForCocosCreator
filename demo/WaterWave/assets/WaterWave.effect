@@ -63,11 +63,11 @@ CCProgram sprite-fs %{
     #pragma builtin(local)
     layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
   #endif
- 
+
   vec2 wave(in vec2 p) {
-      float d = u_time * u_rate;
-      float x = 8.0*(p.x + d);
-      float y = 8.0*(p.y + d);
+      float time = u_time * u_rate;
+      float x = 8.0 * (p.x + time);
+      float y = 8.0 * (p.y + time);
       vec2 uv = vec2(cos(x-y)*cos(y), sin(x+y)*sin(y));
       return uv;
   }
