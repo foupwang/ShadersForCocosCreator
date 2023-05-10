@@ -12,7 +12,7 @@ export class HSL extends Component {
     @property(Label)
     numLabelL: Label = null!;
 
-    numH: number = 0; // 色相(0, 360)
+    numH: number = 0; // 色调(0, 360)
     numS: number = 0.5; // 饱和度(-1, 1)
     numL: number = 0.5; // 亮度(-1, 1)
     material: Material = null;
