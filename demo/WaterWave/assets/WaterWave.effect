@@ -64,10 +64,18 @@ CCProgram sprite-fs %{
     layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
   #endif
 
+  // 计算出波浪效果的新坐标
   vec2 wave(in vec2 p) {
+      float range = 8.0; // 波浪效果的起伏幅度
       float time = u_time * u_rate;
-      float x = 8.0 * (p.x + time);
-      float y = 8.0 * (p.y + time);
+
+      // 将p和time相加，目的是让顶点跟随时间的变化而不断移动
+      float x = range * (p.x + time);
+      float y = range * (p.y + time);
+      
+      // cos(x-y)*cos(y) 可以让波浪呈现出沿对角线方向传播的效果
+      // 自然界中，波浪通常会有一个中心位置，并且在这个位置附近会呈现出周期性的变化。
+      // sin(x+y)*sin(y) 可以让波浪的变化与中心位置关联起来，产生更自然流畅的波浪效果。
       vec2 uv = vec2(cos(x-y)*cos(y), sin(x+y)*sin(y));
       return uv;
   }
@@ -76,7 +84,10 @@ CCProgram sprite-fs %{
     vec4 o = vec4(1, 1, 1, 1);
 
     #if USE_TEXTURE
-      vec2 uv = v_uv0 + 2.0/u_size.x * (wave(v_uv0) - wave(v_uv0+u_size));
+      // 得到波浪效果的新坐标
+      vec2 new_uv = wave(v_uv0) - wave(v_uv0+u_size);
+      // 2.0/u_size.x用来缩放波浪大小，控制水面形状
+      vec2 uv = v_uv0 + 2.0 / u_size.x * new_uv;
       o *= CCSampleWithAlphaSeparated(cc_spriteTexture, uv);
     #endif
 

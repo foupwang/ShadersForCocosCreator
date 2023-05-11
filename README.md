@@ -16,6 +16,6 @@ Shader Demo For Cocos Creator
 ### WaterWave
 | 类别 | 项目 | 编辑器版本 | 备注 |
 | :---: | :---: | :---: | :---: |
-| 2D | 动态水波纹 | 3.7.2 | |
+| 2D | 纹理的动态波浪效果 | 3.7.2 | [实现原理](https://www.chuyouxiang.com/archives/725) |
 
 ![image](https://www.chuyouxiang.com/wp-content/uploads/2020/08/WaterWave.gif)
