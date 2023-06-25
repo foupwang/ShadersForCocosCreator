@@ -1,0 +1,84 @@
+// Effect Syntax Guide: https://docs.cocos.com/creator/manual/zh/shader/index.html
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: unlit-vs:vert
+      frag: unlit-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        diffuseCol: { value: [1, 1, 1, 1], editor: { type: color } }
+        specularCol: { value: [1, 1, 1, 1], editor: { type: color } }
+        glossVal: { value: 20, editor: { range: [8, 256] } }
+}%
+
+CCProgram unlit-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #include <builtin/uniforms/cc-local>
+  
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+  in vec3 a_normal;
+
+  out vec4 v_color;
+  out vec2 v_uv0;
+
+  uniform Constant {
+    vec4 diffuseCol;
+    vec4 specularCol;
+    float glossVal;
+  };
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1.0);
+    pos = cc_matProj * (cc_matView * cc_matWorld) * pos;
+
+    vec3 ambient = cc_ambientSky.xyz;
+    vec3 worldNormal = normalize((cc_matWorldIT * vec4(a_normal, 0.0)).xyz);
+    vec3 worldLightDir = normalize(cc_mainLitDir.xyz);
+    float satu1 = clamp(dot(worldNormal, worldLightDir), 0.0, 1.0);
+    vec3 diffuse = cc_mainLitColor.rgb * diffuseCol.rgb * satu1;
+
+    vec3 reflectDir = normalize(reflect(-worldLightDir, worldNormal));
+    vec3 viewDir = normalize(cc_cameraPos.xyz - (cc_matWorld * vec4(a_position, 1.0)).xyz);
+    float satu2 = clamp(dot(reflectDir, viewDir), 0.0, 1.0);
+    vec3 specular = cc_mainLitColor.rgb * specularCol.rgb * pow(satu2, glossVal);
+
+    vec4 color = vec4(ambient + diffuse + specular, 1.0) ;
+
+    v_uv0 = a_texCoord;
+    v_color = color;
+    return pos;
+  }
+}%
+
+CCProgram unlit-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/alpha-test>
+
+  in vec4 v_color;
+  in vec2 v_uv0;
+
+  #if USE_TEXTURE
+    #pragma builtin(local)
+    layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  #endif
+
+  vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+    o *= v_color;
+    return o;
+  }
+}%
